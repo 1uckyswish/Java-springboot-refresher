@@ -1,47 +1,29 @@
 package com.example.nobsv2.Product.Controller;
 
+import com.example.nobsv2.Product.Model.Product;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/products")
 public class ProductController {
 
+    @Autowired
+    private ProductRepository productRepository;
+
     @GetMapping
-    public ResponseEntity getProduct() {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.emptyList());
+    public ResponseEntity<List<Product>> getProducts() {
+        return ResponseEntity.ok(productRepository.findAll());
+    }
+
+   @GetMapping("/{id}")
+    public ResponseEntity<Optional<Product>> getProduct(@PathVariable Integer id) {
+       return ResponseEntity.ok(productRepository.findById(id));
     }
 }
-
-
-
-
-
-
-
-
-//    @Autowired
-//   private CreatedProductService createdProductService;
-//
-//    @PostMapping
-//    public ResponseEntity<String> createProduct() {
-//        return createdProductService.excute();
-//    }
-//
-//    @GetMapping
-//    public ResponseEntity<String> getProduct() {
-//        return ResponseEntity.status(HttpStatus.OK).body("Product found");
-//    }
-//
-//    @PutMapping
-//    public ResponseEntity<String> updateProduct() {
-//        return ResponseEntity.status(HttpStatus.OK).body("Product updated");
-//    }
-//
-//    @DeleteMapping
-//    public ResponseEntity<String> deleteProduct() {
-//        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Product deleted");
-//    }
