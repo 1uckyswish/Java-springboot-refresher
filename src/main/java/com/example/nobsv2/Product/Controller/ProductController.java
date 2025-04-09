@@ -26,4 +26,24 @@ public class ProductController {
     public ResponseEntity<Optional<Product>> getProduct(@PathVariable Integer id) {
        return ResponseEntity.ok(productRepository.findById(id));
     }
+
+    @PostMapping
+    public ResponseEntity createProduct(@RequestBody Product product){
+        productRepository.save(product);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity updateProduct(@PathVariable Integer id, @RequestBody Product product){
+        product.setId(id);
+        productRepository.save(product);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteProduct(@PathVariable Integer id){
+        productRepository.deleteById(id);
+        return ResponseEntity.ok("Product with ID " + id + " was successfully deleted.");
+    }
+
 }
