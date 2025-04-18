@@ -1,6 +1,8 @@
 package com.example.nobsv2.Product.Controller;
 
 import com.example.nobsv2.Product.Model.Product;
+import com.example.nobsv2.QueryHandlers.GetAllProductsQueryHandler;
+import com.example.nobsv2.QueryHandlers.GetProductQueryHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +19,20 @@ public class ProductController {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private GetAllProductsQueryHandler getAllProductsQueryHandler;
+
+    @Autowired
+    private GetProductQueryHandler getProductQueryHandler;
+
     @GetMapping
     public ResponseEntity<List<Product>> getProducts() {
-        return ResponseEntity.ok(productRepository.findAll());
+        return getAllProductsQueryHandler.execute(null);
     }
 
    @GetMapping("/{id}")
-    public ResponseEntity<Optional<Product>> getProduct(@PathVariable Integer id) {
-       return ResponseEntity.ok(productRepository.findById(id));
+    public ResponseEntity<Object> getProduct(@PathVariable Integer id) {
+       return getProductQueryHandler.execute(id);
     }
 
     @PostMapping
